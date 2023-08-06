@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-@#vnb7j-oe6#kzruw7!n)!u3m%x51afd@(ycrx821n_*andfs4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
             ],
         },
     },
@@ -138,4 +141,41 @@ MEDIA_ROOT = BASE_DIR / 'media'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.vk.VKOAuth2',
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = '' # your id
+
+SOCIAL_AUTH_FACEBOOK_SECRET = '' # secret Facebook
+
+SOCIAL_AUTH_FACEBOOK_SCORE = ['email']
+
+SOCIAL_AUTH_TWITTER_KEY = 'XXX' # KEY API Twitter
+
+SOCIAL_AUTH_TWITTER_SECRET = 'XXX' # SECRET API Twitter
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '870213369233-18igp3m9qvdc6qo98lph58cmo2fq8ngv.apps.googleusercontent.com'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = '51723259'
+
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'VYR2hih8KOvjQTDgcZKe'
+
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+
+SOCIAL_AUTH_PIPELINE = [
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'account.authentication.create_profile',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
 ]
