@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,9 +43,12 @@ INSTALLED_APPS = [
     'django_extensions',
     'images.apps.ImagesConfig',
     'easy_thumbnails',
+    'actions.apps.ActionsConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -159,13 +163,13 @@ SOCIAL_AUTH_TWITTER_KEY = 'XXX' # KEY API Twitter
 
 SOCIAL_AUTH_TWITTER_SECRET = 'XXX' # SECRET API Twitter
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '870213369233-18igp3m9qvdc6qo98lph58cmo2fq8ngv.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
 
-SOCIAL_AUTH_VK_OAUTH2_KEY = '51723259'
+SOCIAL_AUTH_VK_OAUTH2_KEY = ''
 
-SOCIAL_AUTH_VK_OAUTH2_SECRET = 'VYR2hih8KOvjQTDgcZKe'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = ''
 
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 
@@ -181,3 +185,15 @@ SOCIAL_AUTH_PIPELINE = [
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 ]
+
+ABSOLUTE_URL_OVERRIDES = {
+ 'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
+}
+
+INTERNAL_IPS = [
+ '127.0.0.1',
+]
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
